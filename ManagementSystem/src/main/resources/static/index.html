@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do List</title>
+    <link rel="stylesheet" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<style>
+    .no-border{
+    border: none;
+    box-shadow: none ;
+    outline: none ;
+    background: transparent;
+    border-radius: 0;
+    border-bottom: 2px solid black;
+}
+</style>
+<body>
+
+    <!-- -------    Login Page Start Here  ------- -->
+
+    <div class="container-fluid h-100vh">
+
+        <div class="row h-100">
+            <div class="col-4 d-flex flex-column justify-content-center align-content-center " style="background-color:  #FFB84D;  padding-left: 6%;">
+                <h1 class="fs-1 fw-bold">Task</h1>
+                <h1 class="fs-1 fw-bold">Maangement</h1>
+                <h1 class="fs-1 fw-bold">System</h1>
+            </div>
+
+            <div class="col-8 d-flex justify-content-center align-items-center">
+
+                <div class="p-5 right-panel border border-2 rounded-2 border-dark ">
+                    <form id="form">
+
+                     <div class="button-box">
+                        <div id="btn">  </div>
+                            <button type="button" class="toggle-btn active" onclick="showLogin()">LogIn</button>
+                            <button type="button" class="toggle-btn" onclick="showRegister()">Register</button>
+                        </div>
+                   
+                        <!-- Login -->
+                         <div id="login">
+                        <div class="m-3">
+                            <label for="loginEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control no-border" id="email">
+                        </div>
+
+                        <div class="m-3">
+                            <label for="loginPassoword" class="form-label">Password</label>
+                            <input type="password" class="form-control no-border" id="loginPassoword">
+                        </div>
+
+                        <div class="m-5">
+                             <button class="p-2 w-100 bg-dark text-white border rounded-2" onclick="loginbtn()">Login</button>
+                        </div>
+                       
+                        <div class="text-center" style="margin-top: -30px;">
+                            <a href="#">Forget password?</a>
+                        </div>
+                        </div>
+                        
+                        
+                        <!-- Registration -->
+
+                        <div id="registration" style="display: none;">
+                        <div class="m-2">
+                            <label for="regEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control no-border" id="regEmail">
+                        </div>
+
+                        <div class="m-2">
+                            <label for="regUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control no-border" id="regUsername">
+                        </div>
+
+                        <div class="m-2">
+                            <label for="regPassoword" class="form-label">Password</label>
+                            <input type="password" class="form-control no-border" id="regPassoword">
+                        </div>
+
+                        <div class="m-5">
+                             <button class="p-2 w-100 bg-dark text-white border rounded-2">Register</button>
+                        </div>
+                       
+                        <div class="text-center" style="margin-top: -32px;">
+                            <a href="#">Forget password?</a>
+                        </div>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ----------    Login Page End Here ------------- -->
+
+
+  
+    
+    <!-- Scripts -->
+         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
