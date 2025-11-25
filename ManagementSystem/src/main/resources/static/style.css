@@ -1,0 +1,47 @@
+
+    .h-100vh{
+        height: 100vh;
+      
+    }
+
+    .right-panel{
+        height: 560px;
+        width: 500px;
+        background-color: antiquewhite;
+       
+    }
+
+
+    .button-box{
+        width: 230px;
+        margin: 35px auto;
+        box-shadow: 0 0 20px 4px rgb(208, 172, 53);
+        border-radius: 30px; 
+        position: relative;
+    }
+
+    .toggle-btn{
+
+        padding: 12px 30px;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        outline: none;
+        position: relative;
+        
+
+}
+
+#btn{
+
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 100%;
+    border-radius: 30px;
+    position: absolute;
+    background-color: rgb(216, 147, 34);
+   
+    transition: 0.5s;
+}
+

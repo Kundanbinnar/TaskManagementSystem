@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<style>
+ .h-100vh{
+    height: 100vh; 
+ }
+
+ .watermark{
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
+    font-weight: 700;
+    color: rgb(181, 175, 175);
+    text-transform: uppercase;
+    user-select: none;
+     z-index: 0;
+ }
+
+ #addTask{
+    
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: transparent;
+ }
+
+ #addTaskForm{
+    height: 550px;
+    width: 500px;
+    border: 2px solid black;
+    border-radius: 30px;
+    background-color:  rgb(173, 194, 179);
+ }
+
+ #taskTable th{
+    padding: 12px 15px;
+    text-align: center;
+    border: 2px solid rgb(0, 0, 0);
+    background-color:rgb(223, 237, 188);
+ }
+
+ #ViewTask{
+    
+    z-index: 1;
+
+ }
+</style>
+<body>
+
+
+    <div class="container-fluid ">
+
+        <div class="row h-100vh">
+
+            <!-- -----     Left side    -------- -->
+
+        <div class="col-3" style="background-color: rgb(29, 122, 38);">
+            <div class="p-3 mb-5">
+                <h2 class="text-white text-center">Welcome!!!</h2>
+            </div>
+
+            <div class=" d-flex flex-column">
+                <button class="m-2 p-2 border border-2 rounded-2 " id="addTaskBtn">Add Task</button>
+                <button class="m-2 p-2 border border-2 rounded-2" id="viewTaskBtn">View Task</button>
+            </div>
+
+        </div>
+
+
+            <!-- -------    Right Side    ---------- -->
+
+        <div class="col-9 position-relative" style="background-color: rgb(204, 238, 207);">
+
+                <h1 class="watermark">Task Manager</h1>
+           
+                <!-- -----   Actual Content ------ -->
+
+                 <div id="contentArea">
+
+                <!-- Add task -->
+                <div class="position-absolute" id="addTask">
+
+                    <form id="addTaskForm" class="p-5"  style="display: none;" >
+
+                        <div class="d-flex justify-content-between align-items-center">
+                           <h1 class=" fw-bold ">Add task</h1>
+                           <button type="button" id="closeForm" class="btn btn-light">&times;</button>
+                        </div>
+                        
+                        <div class="m-3">
+                            <label for="form-label" class="m-1">Task Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                    
+                        <div class="m-3">
+                            <label for="form-label"  class="m-1">Description</label>
+                            <input type="text" class="form-control p-3">
+                        </div>
+
+                        
+                        <div class="m-3">
+                            <label for="form-label"  class="m-1">Status</label>
+                            <select id="taskStatus" class="form-control">
+                                <option value="Pending">Select status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+
+                         <div class="m-3">
+                            <label for="form-label"  class="m-1">Due Date</label>
+                            <input type="date" class="form-control">
+                        </div>
+
+                        <div class="text-center m-3">
+                        <button type="submit" class="bg-success border boder-3 rounded-3 p-2 text-white">Save Task</button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- View Task -->
+
+                <div id="ViewTask" class="m-5" style="display: none;">
+                    <h1 class="text-center fw-bold mb-4"> Task List</h1>
+
+                    <table id="taskTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Task Name</th>
+                                <th>Description</th>
+                                <th>status</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+          </div>
+
+
+
+        </div>
+        
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="homeScript.js"></script>
+</body>
+
+</html>
