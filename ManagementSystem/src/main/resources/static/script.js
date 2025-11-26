@@ -25,7 +25,7 @@ function loginbtn(){
         }
 
         $.ajax({
-          url:"/auth/login",
+          url:"http://localhost:8080/auth/login",
           type:"POST",
           contentType: "application/json",
           data: JSON.stringify(loginData),
@@ -59,7 +59,7 @@ function registerbtn(){
   }
 
   $.ajax({
-    url:"/auth/register",
+    url:"http://localhost:8080/auth/register",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(registerData),
