@@ -1,3 +1,6 @@
+
+let editingTaskID = null;
+
 $(document).ready(function(){
 
     $('#addTaskBtn').click(function(){
@@ -13,9 +16,59 @@ $(document).ready(function(){
         
     })
 
+	
     $('#addTaskForm').submit(function(e){
 		e.preventDefault();
-		addTask();
+		
+		const taskData = {
+			name: $('#taskName').val(),
+			description: $('#description').val(),
+			status: $('#taskStatus').val(),
+			dueDate: $('#dueDate').val()
+			};
+			
+			if(editingTaskID){
+				$.ajax({
+					
+					url: `http://localhost:8080/tasks/${editingTaskID}`,
+					type: "PUT",
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + localStorage.getItem("token")
+					},
+					data: JSON.stringify(taskData),
+					success:function(res){
+						alert("Task Updated Successfully !!!");
+						$('#addTaskForm').fadeOut();
+						viewTask();
+						editingTaskID = null;
+					}
+				});
+			}
+		    else{
+				
+				$.ajax({
+					
+					url: "http://localhost:8080/tasks",
+					type: "POST",
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + localStorage.getItem("token") 
+					},
+					data:JSON.stringify(taskData),
+					success:function(response){
+						alert("Task Added Successfully");
+						$('#addTaskForm').fadeOut();
+						 viewTask();
+					} ,
+				    error:function(xhr){
+
+		                 alert("Something went Wrong !!!");
+					     console.log(xhr.responseText);
+					 }
+				})
+			}
+		
     })
 
     $("#viewTaskBtn").click(function(){
@@ -23,11 +76,16 @@ $(document).ready(function(){
 		viewTask();
     })
 	
+	
 	$('#taskTable tbody').on('click', '.editBtn', function(){
 		let editingTaskID = $(this).data('id');
 		editTask(editingTaskID);
 	});
 
+	$('#taskTable tbody').on('click', ".deleteBtn", function(){
+		let deleteID = $(this).data('id');
+		deleteTask(deleteID);
+	})
 	
 	window.taskTable = $("#taskTable").DataTable({ // uppercase D
 	    aaSorting: [],
@@ -53,6 +111,8 @@ $(document).ready(function(){
 	$('.dataTables_filter input').attr('placeholder', 'Search');
 });
 
+
+//function to add task just for refrence 
  function addTask(){
 
         var addData = {
@@ -128,8 +188,8 @@ function populateTable(data){
 			let formattedDate = task.dueDate ? task.dueDate : ""; 
 			
 			let row = [
-                 `<button class="btn btn-success editBtn" id="editTask_${task.id}">Edit </button>
-                 <button class="btn btn-danger" id="deleteTask_${task.id}">Delete </button>`,
+                 `<button class="btn btn-success editBtn" data-id="${task.id}">Edit </button>
+                 <button class="btn btn-danger deleteBtn" data-id="${task.id}">Delete </button>`,
 				 task.name,
 				 task.description,
 				 task.status,
@@ -142,21 +202,24 @@ function populateTable(data){
 		
 	}
 	
-	
-    let editingTaskID=null;
+
 	function editTask(taskID){
 		
 		console.log("Edit task ID: ", taskID);
 		
 		$.ajax({
-			url:`http://localhost:8080/tasks/${taskId}`,
+			url:`http://localhost:8080/tasks/${taskID}`,
 			type: "GET",
 			contentType: "application/json",
 			headers:{
 				"Authorization": "Bearer " + localStorage.getItem("token")
 			},
 		
-			Success: function(task){
+			success: function(task){
+				
+				editingTaskID = taskID;
+				console.log("Status from backend:", task.status);
+
 				$("#taskName").val(task.name);
 				$("#description").val(task.description);
 				$("#taskStatus").val(task.status);
@@ -167,16 +230,16 @@ function populateTable(data){
 	}
 	
 
-	function deleteTask(taskID){
+	function deleteTask(deleteID){
 		
 		if(confirm("Delete this task?")){
 			$.ajax({
-				url: "http://localhost:8080/tasks/${taskId}",
+				url: `http://localhost:8080/tasks/${deleteID}`,
 				type: "DELETE",
 				headers: {
 					"Authorization": "Bearer " + localStorage.getItem("token")
 				},
-				success: function(){
+				success: function(res){
 					alert("Task deleted sucessfully !!!");
 					viewTask();
 				},
@@ -184,6 +247,17 @@ function populateTable(data){
 					alert("Wrong");
 					console.log("Delete failed", xhr.responseText);
 				}
-			})
+			});
 		}
+	}
+	
+	
+	function clearForm(){
+		
+		$("#taskName").val('');
+		$("#description").val('');
+		$("#taskStatus").val('');
+	    $("#dueDate").val('');
+		
+		editingTaskID = null;
 	}
