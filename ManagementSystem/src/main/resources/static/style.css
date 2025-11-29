@@ -15,7 +15,6 @@
     .button-box{
         width: 230px;
         margin: 35px auto;
-        box-shadow: 0 0 20px 4px rgb(208, 172, 53);
         border-radius: 30px; 
         position: relative;
     }
@@ -28,6 +27,7 @@
         border: 0;
         outline: none;
         position: relative;
+        font-weight: bold;
         
 
 }
@@ -40,7 +40,7 @@
     height: 100%;
     border-radius: 30px;
     position: absolute;
-    background-color: rgb(216, 147, 34);
+    background-color: rgb(229, 161, 51);;
    
     transition: 0.5s;
 }

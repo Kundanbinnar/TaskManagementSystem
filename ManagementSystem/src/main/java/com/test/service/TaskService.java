@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.test.entity.Task;
+import com.test.entity.User;
 import com.test.repository.TaskRepository;
 
 @Service
@@ -44,5 +45,9 @@ public class TaskService {
 			throw new IllegalArgumentException("Task with id " + id + "not found");
 		}
 
+	}
+	
+	public List<Task> getTaskByUser(User user){
+		return taskRepository.findByUser(user);
 	}
 }

@@ -48,7 +48,7 @@ public class TaskController {
 		return ResponseEntity.ok("Successfully added the task !!!");
 	}
 
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<Task>> getAllTask() {
 		List<Task> tasks = taskSerivce.getAllTask();
 		return ResponseEntity.ok().body(tasks);
@@ -81,5 +81,22 @@ public class TaskController {
 			return ResponseEntity.status(404).body("Id is not present");
 		}
 	}
+	
+	@GetMapping("/my-tasks")
+	public ResponseEntity<List<Task>> getTaskForUser(@RequestHeader("Authorization") String authHeader){
+		
+		String token = authHeader.substring(7);
+		String username = jwtUtil.extractUsername(token);
+		User user = userRepo.findByUsername(username);
+		
+		if(user == null) {
+			return ResponseEntity.status(401).build();
+		}
+		
+		List<Task> tasks = taskSerivce.getTaskByUser(user);
+		return ResponseEntity.ok(tasks);
+	}
+	
+	
 
 }

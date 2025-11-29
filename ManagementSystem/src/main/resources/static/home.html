@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
 </head>
 
 <style>
@@ -43,13 +45,68 @@
     border-radius: 30px;
     background-color:  rgb(173, 194, 179);
  }
+ 
+ #taskTable{
+ width: 100% !important;
+ table-layout:fixed;
+ }
 
  #taskTable th{
+ 
     padding: 12px 15px;
     text-align: center;
     border: 2px solid rgb(0, 0, 0);
     background-color:rgb(223, 237, 188);
  }
+
+ #taskTable td {
+
+     text-align: center;
+     border: 1px solid black;
+     padding: 8px
+ }
+ 
+ 
+  #taskTable button{
+     padding: 5px 10px;
+     margin: 0 2px;
+     border:none;
+     border-radius: 5px;
+     font-weight: bold;
+     cursor: pointer;
+ }
+ 
+ .dataTables_filter {
+    margin-bottom: 20px;
+}
+
+.dataTables_paginate {
+    margin-top: 15px;
+}
+
+ 
+ .dataTables_filter input {
+ 
+ background-color: rgb(204, 238, 207) !important;
+
+ padding: 8px 12px;
+  border: none !important;
+  border-bottom: 2px solid black !important;
+  outline:none;
+   border-radius: 0;                   
+    padding: 8px 12px !important;
+   width: 200px;
+   transition: all 0.3s ease;   
+ }
+ 
+ .dataTables_filter input::placeholder {
+    color: #555;               /* placeholder color */
+    opacity: 1;                /* ensures visibility */
+}
+ .dataTables_filter input:focus {
+   
+    box-shadow: 0 0 5px grey;
+}
 
  #ViewTask{
     
@@ -137,7 +194,7 @@
                 <div id="ViewTask" class="m-5" style="display: none;">
                     <h1 class="text-center fw-bold mb-4"> Task List</h1>
 
-                    <table id="taskTable" class="table table-bordered table-striped">
+                    <table id="taskTable" class="table table-bordered table-striped stripe">
                         <thead>
                             <tr>
                                 <th>Action</th>
@@ -164,6 +221,8 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <script src="homeScript.js"></script>
 </body>
 
