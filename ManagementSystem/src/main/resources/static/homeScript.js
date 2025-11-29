@@ -16,7 +16,8 @@ $(document).ready(function(){
         
     })
 
-	
+
+	//add and update	
     $('#addTaskForm').submit(function(e){
 		e.preventDefault();
 		
@@ -73,8 +74,35 @@ $(document).ready(function(){
 
     $("#viewTaskBtn").click(function(){
         $("#ViewTask").fadeIn();
+		$("#taskListContent").fadeIn();
+		$("#summaryContent").hide();
+		
+		$(".taskListTab").addClass("active");
+		$(".summaryTab").removeClass("active");
 		viewTask();
-    })
+		
+		
+		
+		$(".taskListTab").click(function(){
+			$(this).addClass("active");
+			$(".summaryTab").removeClass("active");
+			
+
+			$("#taskListContent").fadeIn();
+			$("#summaryContent").fadeOut();
+		});
+		
+		$(".summaryTab").click(function(){
+			$(this).addClass("active");
+			$(".taskListTab").removeClass("active");
+
+		    $("#summaryContent").fadeIn();
+			$("#taskListContent").fadeOut();
+			$(".watermark").fadeOut();
+			renderSummaryChart(taskDataGraph);
+			renderSummaryPieChart(taskDataGraph);
+			});
+    });
 	
 	
 	$('#taskTable tbody').on('click', '.editBtn', function(){
@@ -87,9 +115,11 @@ $(document).ready(function(){
 		deleteTask(deleteID);
 	})
 	
+	//table creation
 	window.taskTable = $("#taskTable").DataTable({ // uppercase D
 	    aaSorting: [],
-	    bPagination: false,
+	    bPagination: true,
+		pageLength:5,
 	    bLengthChange:false,
 	    searching: true,
 	    info: false,
@@ -109,6 +139,9 @@ $(document).ready(function(){
 	});
 
 	$('.dataTables_filter input').attr('placeholder', 'Search');
+	
+	
+	
 });
 
 
@@ -146,6 +179,7 @@ $(document).ready(function(){
     }
 	
 	
+	//view table
 	function viewTask(){
 		
 		$.ajax({
@@ -165,12 +199,16 @@ $(document).ready(function(){
 		});
 	}
 
-		
+
+let taskDataGraph = [];	
+	//populate the table	
 function populateTable(data){
 		
        let table = window.taskTable;
 	   table.clear();
- 
+	   taskDataGraph = [];
+	   
+	   
 	  if (!data || data.length === 0) {
 	      table.row.add([
 	          "",
@@ -197,12 +235,19 @@ function populateTable(data){
 			];
 			
 			table.row.add(row);
+			
+			taskDataGraph.push({
+					name:task.name,
+					status:task.status
+				});
+			
 		});
 		table.draw(); 
 		
 	}
 	
 
+	//edit the btn and shows pre-fill form 
 	function editTask(taskID){
 		
 		console.log("Edit task ID: ", taskID);
@@ -230,6 +275,7 @@ function populateTable(data){
 	}
 	
 
+	//delete btn function
 	function deleteTask(deleteID){
 		
 		if(confirm("Delete this task?")){
@@ -252,6 +298,8 @@ function populateTable(data){
 	}
 	
 	
+	
+	//clear's the form for adding new task
 	function clearForm(){
 		
 		$("#taskName").val('');
@@ -260,4 +308,113 @@ function populateTable(data){
 	    $("#dueDate").val('');
 		
 		editingTaskID = null;
+	}
+	
+	
+	function renderSummaryChart(tasks){
+		
+		const pending = tasks.filter(t=>t.status === "Pending").length;
+		const inProgess = tasks.filter(t=>t.status === "In Progress").length;
+		const complete = tasks.filter(t=>t.status === "Completed").length;
+		
+		const ctx = document.getElementById("barChart").getContext("2d");
+		
+		if(window.taskChart instanceof Chart) {
+			window.taskChart.destroy();
+			}
+		
+		window.taskChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: ['Pending', 'In Progress', 'Completed'],
+				datasets: [{
+					label: 'Task Summary',
+					data: [pending, inProgess, complete],
+					backgroundColor: [
+					                   'rgba(255, 159, 64)',   // pending
+					                   'rgba(54, 162, 235)',   // in progress
+					                   'rgba(75, 192, 192)'    // completed
+					               ],
+					               borderColor: [
+					                   'rgba(255, 159, 64, 1)',
+					                   'rgba(54, 162, 235, 1)',
+					                   'rgba(75, 192, 192, 1)'
+					               ],
+					               borderWidth: 2
+				}]
+			},
+			
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+				                legend: {
+				                   
+									labels: {font: {size:30}}
+				                },
+								title: {
+									display: true, text: 'Task Status Summary', font: { size: 32}
+								}
+				            },
+				scales: {
+					x: {
+					     ticks: {
+					     font: { size: 22, weight: 'bold' }
+					            }
+					        },
+				     y: {
+				          beginAtZero: true
+				      }
+				  }
+			}
+		});
+		
+		
+	}
+	
+	
+	function renderSummaryPieChart(tasks) {
+
+	    const pending = tasks.filter(t => t.status === "Pending").length;
+	    const inProgress = tasks.filter(t => t.status === "In Progress").length;
+	    const complete = tasks.filter(t => t.status === "Completed").length;
+
+	    const piectx = document.getElementById("pieChart").getContext("2d");
+
+	    if (window.taskChart1 instanceof Chart) {
+	        window.taskChart1.destroy();
+	    }
+
+	    window.taskChart1 = new Chart(piectx, {
+	        type: "pie",
+	        data: {
+	            labels: ["Pending", "In Progress", "Completed"],
+	            datasets: [{
+	                data: [pending, inProgress, complete],
+	                backgroundColor: [
+	                    "rgba(255, 159, 64)",   // Pending
+	                    "rgba(54, 162, 235)",   // In Progress
+	                    "rgba(75, 192, 192)"    // Completed
+	                ],
+	                borderColor: [
+	                    "rgba(255, 159, 64, 1)",
+	                    "rgba(54, 162, 235, 1)",
+	                    "rgba(75, 192, 192, 1)"
+	                ],
+	                borderWidth: 1
+	            }]
+	        },
+	        options: {
+	            responsive: true,
+	            plugins: {
+	                legend: {
+	                    position: "bottom",
+						labels: {font: {size: 24, weight: 'bold' }}
+	                },
+					title: {
+						display: true, text: 'Task Status Summary', font: { size: 32}
+					}
+	            }
+	        }
+	    });
 	}
